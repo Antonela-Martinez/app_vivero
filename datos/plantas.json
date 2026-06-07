@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "nombre_comun": "Lavanda",
+    "nombre_cientifico": "Lavandula angustifolia",
+    "categoria": "Arbusto",
+    "sector": "Ecterior",
+    "cantidad": 10,
+    "precio": 7800.0,
+    "cuidados_basicos": "Sol directo, riego escaso, poda anual"
+  },
+  {
+    "id": 2,
+    "nombre_comun": "b",
+    "nombre_cientifico": "a",
+    "categoria": "a",
+    "sector": "a",
+    "cantidad": 8,
+    "precio": 50000.0,
+    "cuidados_basicos": "aaa"
+  },
+  {
+    "id": 3,
+    "nombre_comun": "Hortensia",
+    "nombre_cientifico": "Hydrangea macrophylla",
+    "categoria": "Arbusto",
+    "sector": "Exterior",
+    "cantidad": 8,
+    "precio": 25000.0,
+    "cuidados_basicos": "Semisombra, humedad constante, suelo acido"
+  }
+]
