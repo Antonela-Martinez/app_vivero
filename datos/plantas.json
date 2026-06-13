@@ -5,19 +5,9 @@
     "nombre_cientifico": "Lavandula angustifolia",
     "categoria": "Arbusto",
     "sector": "Ecterior",
-    "cantidad": 10,
+    "cantidad": 6,
     "precio": 7800.0,
     "cuidados_basicos": "Sol directo, riego escaso, poda anual"
-  },
-  {
-    "id": 2,
-    "nombre_comun": "b",
-    "nombre_cientifico": "a",
-    "categoria": "a",
-    "sector": "a",
-    "cantidad": 8,
-    "precio": 50000.0,
-    "cuidados_basicos": "aaa"
   },
   {
     "id": 3,
@@ -28,5 +18,85 @@
     "cantidad": 8,
     "precio": 25000.0,
     "cuidados_basicos": "Semisombra, humedad constante, suelo acido"
+  },
+  {
+    "id": 4,
+    "nombre_comun": "Ficus",
+    "nombre_cientifico": "Ficus benjamina",
+    "categoria": "Arbusto",
+    "sector": "Exterior",
+    "cantidad": 8,
+    "precio": 23000.0,
+    "cuidados_basicos": "sol pleno, riego moderado"
+  },
+  {
+    "id": 5,
+    "nombre_comun": "Rosa",
+    "nombre_cientifico": "Rosa pleris",
+    "categoria": "Ornamental",
+    "sector": "Exterior",
+    "cantidad": 2,
+    "precio": 45999.0,
+    "cuidados_basicos": "sol"
+  },
+  {
+    "id": 6,
+    "nombre_comun": "B",
+    "nombre_cientifico": "B",
+    "categoria": "B",
+    "sector": "B",
+    "cantidad": 6,
+    "precio": 0.0,
+    "cuidados_basicos": "hij"
+  },
+  {
+    "id": 7,
+    "nombre_comun": "C",
+    "nombre_cientifico": "C",
+    "categoria": "C",
+    "sector": "C",
+    "cantidad": 5,
+    "precio": 9.0,
+    "cuidados_basicos": "jh"
+  },
+  {
+    "id": 8,
+    "nombre_comun": "D",
+    "nombre_cientifico": "D",
+    "categoria": "D",
+    "sector": "D",
+    "cantidad": 4,
+    "precio": 7.0,
+    "cuidados_basicos": "hjk"
+  },
+  {
+    "id": 9,
+    "nombre_comun": "E",
+    "nombre_cientifico": "E",
+    "categoria": "E",
+    "sector": "E",
+    "cantidad": 4,
+    "precio": 678.0,
+    "cuidados_basicos": "jkhg"
+  },
+  {
+    "id": 10,
+    "nombre_comun": "F",
+    "nombre_cientifico": "F",
+    "categoria": "F",
+    "sector": "F",
+    "cantidad": 8,
+    "precio": 7000.0,
+    "cuidados_basicos": "ghj"
+  },
+  {
+    "id": 11,
+    "nombre_comun": "G",
+    "nombre_cientifico": "G",
+    "categoria": "G",
+    "sector": "G",
+    "cantidad": 6,
+    "precio": 9000.0,
+    "cuidados_basicos": "jhg"
   }
 ]
