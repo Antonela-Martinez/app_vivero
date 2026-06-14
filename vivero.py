@@ -1,5 +1,6 @@
 import os
 import json
+import unicodedata
 
 
 NOMBRE_ARCHIVO = os.path.join('datos', 'plantas.json')
@@ -9,6 +10,13 @@ SEC_EXTERIOR = 'Exterior'
 SEC_INVERNADERO = 'Invernadero'
 SEC_HUERTA = 'Huerta'
 
+CAT_ARBOL = 'Arbol'
+CAT_ARBUSTO = 'Arbusto'
+CAT_SUCULENTA = 'Suculenta'
+CAT_AROMATICA = 'Aromatica'
+CAT_FRUTAL = 'Frutal'
+CAT_ORNAMENTAL = 'Ornamental'
+
 
 def leer_archivo():
     if os.path.exists(NOMBRE_ARCHIVO):
@@ -17,17 +25,20 @@ def leer_archivo():
             return datos
     else:
         return []
+    
 
 def guardar_archivo(datos):
     with open(NOMBRE_ARCHIVO, 'wt', encoding='UTF-8') as archivo:
         json.dump(datos, archivo, ensure_ascii=False, indent=2)
 
+
 def ingresar_entero(msj:str)->int:
-    a_retornar = input(msj)
-    while not a_retornar.isnumeric():
-        print("ERROR!! EL VALOR DEBE SER NUMERICO")
-        a_retornar = input(msj)
+    a_retornar = input(msj).strip()
+    while not a_retornar.lstrip("-").isnumeric():
+        print("ERROR! EL VALOR DEBE SER NUMERICO")
+        a_retornar = input(msj).strip()
     return int(a_retornar)
+
 
 def ingresar_float(msj: str) -> float:
     a_retornar = input(msj).strip()
@@ -107,40 +118,75 @@ def cargar_planta():
 # o por categoría (árboles, arbustos, suculentas, aromáticas, frutales, ornamentales)
 #--------------------------------------------------------------------------------------------
 
+def quitar_acentos(texto: str) -> str:
+    texto = texto.capitalize()
+    texto = unicodedata.normalize("NFD", texto)
+    # Eliminar caracteres de tipo "Mn" (marcas de acento)
+    texto = "".join(c for c in texto if unicodedata.category(c) != "Mn")
+    return texto
+
 
 def filtrar_por_sector(archivo):
-    sector = input('Ingrese sector (INTERIOR-EXTERIOR-HUERTA-INVERNADERO): ').capitalize()
+    sector = input("Ingrese sector (INTERIOR-EXTERIOR-HUERTA-INVERNADERO): ").capitalize().strip()
+    print(" ")
 
-    while not (sector == SEC_EXTERIOR or sector == SEC_HUERTA or sector == SEC_INTERIOR or SEC_INVERNADERO): 
-        sector = input('Ingrese el sector correspondiente (INTERIOR-EXTERIOR-HUERTA-INVERNADERO): ').capitalize()
+    while not (sector == SEC_EXTERIOR or sector == SEC_HUERTA or sector == SEC_INTERIOR or sector == SEC_INVERNADERO): 
+        sector = input("ERROR!! Ingrese el sector correspondiente (INTERIOR-EXTERIOR-HUERTA-INVERNADERO): ").capitalize().strip()
+        print(" ")
 
+    existe = False 
     indice = 0
     for planta in archivo:
         if sector in planta['sector']:
             print (planta)
             indice+= indice
+            existe = True
         elif not sector in planta['sector']:
             indice+= indice
 
-def filtrar_por_categoria(archivo):
-    categoria = input('Ingrese categoria (ÁRBOL-ARBUSTO-SUCULENTA-AROMÁTICA-FRUTAL-ORNAMENTAL): ')
+    if existe is False:
+        print(f"No hay registros del sector {sector.upper()}!")
+        print(" ")
 
+
+def filtrar_por_categoria(archivo):
+    categoria = input('Ingrese categoria (ÁRBOL-ARBUSTO-SUCULENTA-AROMÁTICA-FRUTAL-ORNAMENTAL): ').capitalize().strip()
+    print(" ")
+
+    categoria = quitar_acentos(categoria)
+
+    while not (categoria == CAT_ARBOL or categoria == CAT_ARBUSTO or categoria == CAT_AROMATICA or 
+               categoria == CAT_FRUTAL or categoria == CAT_ORNAMENTAL or categoria == CAT_SUCULENTA):
+        categoria = input('ERROR!! Ingrese categoria correcta (ÁRBOL-ARBUSTO-SUCULENTA-AROMÁTICA-FRUTAL-ORNAMENTAL): ').capitalize().strip()
+        print(" ")
+    
+    existe = False
     indice = 0
     for planta in archivo:
         if categoria in planta['categoria']:
             print (planta)
             indice+= indice
+            existe = True
         elif not categoria in planta['categoria']:
             indice+= indice
 
+    if existe is False:
+        print(f"No hay registros de la categoria {categoria.upper()}!")
+        print(" ")
 
 def listar_plantas():
     plantas = leer_archivo()
+
+    if not plantas:  
+        print("⚠️ No hay plantas cargadas en el sistema.")
+
     for planta in plantas:
         print(planta)
 
-    filtrar = input("¿Desea filtrar por sector (INGRESE S) o categoria (INGRESE C)? ")
-
+    print(" ")
+    filtrar = input("¿Desea filtrar por sector (INGRESE S) o categoria (INGRESE C)? ").lower()
+    print(" ")
+    
     if filtrar == 's':
         filtrar_por_sector(plantas)
     elif filtrar == 'c':
@@ -154,15 +200,26 @@ def listar_plantas():
 
 def buscar_planta():
     plantas = leer_archivo()
-    nombre = input("Ingrese el nombre de la planta que desea buscar: ")
 
+    if not plantas:   # chequea si la lista está vacía
+        print("⚠️ No hay plantas cargadas en el sistema.")
+
+    nombre = input("Ingrese nombre comun o cientifico de la planta que desea buscar: ").capitalize().strip()
+    print(" ")
+    
+    existe = False
     indice = 0
     for planta in plantas:
-        if nombre == planta["nombre_comun"]:
+        if nombre == planta["nombre_comun"] or nombre == planta["nombre_cientifico"]:
+            existe = True
             break
         indice += 1
-    planta = plantas[indice]
-    print(planta)
+
+    if existe is True:
+        planta = plantas[indice]
+        print(planta)
+    else:
+        print(f"La planta {nombre.upper()} no se ha encontrado! ")
 
 
 #-------------------------------------------------------------------------------
@@ -172,18 +229,31 @@ def buscar_planta():
 def mostrar_stock(planta):
     print(" ")
     print(f"NUEVO STOCK de {planta['nombre_comun']} : {planta['cantidad']}")
+    print(" ")
 
 def actualizar_stock():
 
     plantas = leer_archivo()
-    nombre = input("Para modificar el sstock ingrese el nombre de la planta: ")
+    nombre = input("Para modificar el sstock ingrese el nombre de la planta: ").capitalize().strip()
 
+    if not plantas:  
+        print("⚠️ No hay plantas cargadas en el sistema.")
+
+    existe = False
     indice = 0
     for planta in plantas:
         if nombre == planta["nombre_comun"]:
+            existe = True
             break
         indice += 1
-    planta = plantas[indice]
+
+
+    if existe == True:    
+        planta = plantas[indice]
+    else:
+        print(f"No existen registros de la planat {nombre.upper()} ")
+        return
+
 
     nombre_comun = planta["nombre_comun"]
     nombre_cientifico = planta["nombre_cientifico"]
@@ -222,13 +292,15 @@ def actualizar_stock():
 
 def eliminar_planta():
     plantas = leer_archivo()
-    nombre = input("Para dar de baja ingrese el nombre de la planta: ")
+    nombre = input("Para dar de baja ingrese el nombre de la planta: ").capitalize().strip()
+
+    if not plantas:  
+        print("⚠️ No hay plantas cargadas en el sistema.")
 
     existe = False
     indice = 0
-
     for planta in plantas:
-        if planta["nombre_comun"].lower() == nombre.lower():
+        if planta["nombre_comun"] == nombre:
             existe = True
             break
         indice += 1
@@ -246,7 +318,7 @@ def eliminar_planta():
         guardar_archivo(plantas)
         print(f"✅ La planta {planta_eliminada['nombre_comun']} se ha eliminado correctamente.")
     else:
-        print("❎ Operación cancelada, la planta no fue eliminada.")
+        print(" Operación cancelada, la planta no fue eliminada.")
 
 
 
@@ -273,12 +345,15 @@ def menu():
     while True:
         mostrar_menu()
 
-        op = int(input("¿Qué queres hacer? - Ingrese una opcion : "))
-        print(" ")
+        op = ingresar_entero("¿Qué queres hacer? - Ingrese una opcion : ")
+    
 
-        if op < 0 or op > 5:
-            print("Ingrese una opcion valida")
-            continue
+
+        while op < 0 or op > 5:
+            print("OPCIÓN INCORRECTA! INGRESE UN NUMERO ENTRE 0 Y 5")
+            op = ingresar_entero("¿Qué queres hacer? - Ingrese una opcion : ")
+            print(" ")
+
 
         match op:
             case 0:

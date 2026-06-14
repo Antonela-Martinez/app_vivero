@@ -40,7 +40,7 @@
     "cuidados_basicos": "sol"
   },
   {
-    "id": 6,
+    "id": 5,
     "nombre_comun": "B",
     "nombre_cientifico": "B",
     "categoria": "B",
@@ -78,25 +78,5 @@
     "cantidad": 4,
     "precio": 678.0,
     "cuidados_basicos": "jkhg"
-  },
-  {
-    "id": 10,
-    "nombre_comun": "F",
-    "nombre_cientifico": "F",
-    "categoria": "F",
-    "sector": "F",
-    "cantidad": 8,
-    "precio": 7000.0,
-    "cuidados_basicos": "ghj"
-  },
-  {
-    "id": 11,
-    "nombre_comun": "G",
-    "nombre_cientifico": "G",
-    "categoria": "G",
-    "sector": "G",
-    "cantidad": 6,
-    "precio": 9000.0,
-    "cuidados_basicos": "jhg"
   }
 ]

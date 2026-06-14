@@ -1,4 +1,5 @@
 from vivero import menu as stock
+from vivero import ingresar_entero
 
 def mostrar_menu():
     #console.log("[blue]═══════════════════════════════════════════════════")
@@ -19,13 +20,12 @@ def menu_principal():
 
         mostrar_menu()
 
-        op = int(input("Ingrese una opción: "))
+        op = ingresar_entero("¿Qué queres hacer? - Ingrese una opcion : ")
         print(" ")
 
-        if op < 0 or op > 5:
-            print(" ")
-            print("Ingrese una opcion valida")
-            continue
+        while op < 0 or op > 5:
+            print("OPCIÓN INCORRECTA! INGRESE UN NUMERO ENTRE 0 Y 5")
+            op = ingresar_entero("¿Qué queres hacer? - Ingrese una opcion : ")
 
         match op:
             case 0: 
